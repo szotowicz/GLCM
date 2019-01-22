@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GLCM", "GLCM-Magic\GLCM.csproj", "{82993E6B-8C9B-4925-8BE6-4157C64D3B95}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GLCM", "GLCM\GLCM.csproj", "{82993E6B-8C9B-4925-8BE6-4157C64D3B95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
