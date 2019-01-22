@@ -1,0 +1,83 @@
+﻿<Window x:Class="GLCM.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GLCM"
+        mc:Ignorable="d"
+        Title="GLCM" Height="488.535" Width="1125.647" Background="WhiteSmoke">
+    <Grid Margin="0,0,2,0">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF890404" Offset="0"/>
+                <GradientStop Color="#FFF77272" Offset="1"/>
+                <GradientStop Color="#FFCB3737" Offset="0.661"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="37*"/>
+            <ColumnDefinition Width="521*"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox x:Name="groupBox" Header="Parameters of the selected image" HorizontalAlignment="Left" Margin="10,290,0,0" VerticalAlignment="Top" Height="151" Width="291" Grid.ColumnSpan="2">
+            <StackPanel Margin="10,0,-2,-1">
+                <Label x:Name="entropyLabel" Content=" "/>
+                <Label x:Name="energyLabel" Content=" "/>
+                <Label x:Name="correlationLabel" Content=" "/>
+                <Label x:Name="contrast" Content=" "/>
+            </StackPanel>
+        </GroupBox>
+        <ScrollViewer Margin="557,10,10,10" Grid.Column="1">
+            <StackPanel>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,0,15">
+                    <TextBlock Text="Entropy Heatmap" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                    <Separator Margin="0" Width="100" Visibility="Hidden"/>
+                    <Image x:Name="EntropyImageResult" ToolTip="Entropy Heatmap" VerticalAlignment="Top" Height="256" Stretch="Fill"/>
+                </StackPanel>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,0,15">
+                    <TextBlock Text="Energy Heatmap" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                    <Separator Margin="0" Width="100" Visibility="Hidden"/>
+                    <Image x:Name="EnergyImageResult" ToolTip="Energy Heatmap" VerticalAlignment="Top" Height="256" Stretch="Fill"/>
+                </StackPanel>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,0,15">
+                    <TextBlock Text="Correlation Heatmap" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                    <Separator Margin="0" Width="100" Visibility="Hidden"/>
+                    <Image x:Name="CorrelationImageResult" ToolTip="Correlation Heatmap" VerticalAlignment="Top" Height="256" Stretch="Fill"/>
+                </StackPanel>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,0,15">
+                    <TextBlock Text="Contrast Heatmap" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                    <Separator Margin="0" Width="100" Visibility="Hidden"/>
+                    <Image x:Name="ContrastImageResult" ToolTip="Contrast Heatmap" VerticalAlignment="Top" Height="256" Stretch="Fill"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+        <Button x:Name="GenerateHeatmapsButton" Content="Generate heatmaps" HorizontalAlignment="Left" Margin="243,302,0,0" VerticalAlignment="Top" Width="309" Click="GenerateHeatmapsButton_Click" Height="61" FontWeight="Bold" FontSize="16" Grid.Column="1" IsEnabled="False" Background="#FF25C715"/>
+        <GroupBox x:Name="OptionsGroupBox" Header="Source Image" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="275" Width="372" Grid.ColumnSpan="2">
+            <Grid Margin="10,10,-2,9">
+                <Image x:Name="imageSource" HorizontalAlignment="Left" Height="207" VerticalAlignment="Top" Width="342" ToolTip="Source Image" Margin="0,27,0,0"/>
+                <Button x:Name="loadButton" Content="Load image" HorizontalAlignment="Right" VerticalAlignment="Top" Width="75" Click="LoadButton_Click" Margin="0,0,10,0" Background="#FF8FE0F1"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="groupBox3" Header="Options" HorizontalAlignment="Left" Margin="313,10,0,0" VerticalAlignment="Top" Height="275" Width="239" Grid.Column="1">
+            <Grid Margin="10,2,0,-1" Height="252" VerticalAlignment="Top" HorizontalAlignment="Left" Width="206">
+                <Label Content="Step X:" HorizontalAlignment="Left" Margin="29,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.412,0.577"/>
+                <Label Content="Step Y:" HorizontalAlignment="Left" Margin="29,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.471,0.885"/>
+                <TextBox x:Name="StepXTextBox" HorizontalAlignment="Left" Height="23" Margin="99,13,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="79" TextAlignment="Center"/>
+                <TextBox x:Name="StepYTextBox" HorizontalAlignment="Left" Height="23" Margin="99,45,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="79" TextAlignment="Center"/>
+                <CheckBox x:Name="normalizeCheckBox" Content="Normalize GLCM" HorizontalAlignment="Left" Margin="45,91,0,0" VerticalAlignment="Top" IsChecked="True"/>
+                <ComboBox x:Name="degreeComboBox" HorizontalAlignment="Left" Margin="29,150,0,0" Width="149" SelectedIndex="0" IsReadOnly="True" VerticalAlignment="Top">
+                    <ComboBoxItem Content="0° degrees" Tag="0" HorizontalAlignment="Center"/>
+                    <ComboBoxItem Content="45° degrees" Tag="1" HorizontalAlignment="Center"/>
+                    <ComboBoxItem Content="90° degrees" Tag="2" HorizontalAlignment="Center"/>
+                    <ComboBoxItem Content="135° degrees" Tag="3" HorizontalAlignment="Center"/>
+                </ComboBox>
+                <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="11,128,0,0" TextWrapping="Wrap" Text="Direction to texture analysis:" VerticalAlignment="Top" Height="22" Width="185" TextAlignment="Center"/>
+                <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="10,195,0,0" TextWrapping="Wrap" Text="Distance to texture analysis:" VerticalAlignment="Top" Height="24" Width="186" TextAlignment="Center"/>
+                <TextBox x:Name="distanceTextBox" HorizontalAlignment="Left" Height="23" Margin="66,219,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="73" TextAlignment="Center"/>
+            </Grid>
+        </GroupBox>
+        <ProgressBar x:Name="ProgressBar" HorizontalAlignment="Left" Height="30" Margin="243,368,0,0" VerticalAlignment="Top" Width="309" Grid.Column="1"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="38" Margin="243,403,0,0" VerticalAlignment="Top" Width="309" Grid.Column="1">
+            <TextBlock x:Name="StatusTextBlock" Margin="9" TextWrapping="Wrap" Text="Status: Please load image" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontStyle="Italic" Foreground="#FF6C6A6A"/>
+        </Border>
+    </Grid>
+</Window>
