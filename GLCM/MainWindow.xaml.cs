@@ -119,7 +119,7 @@ namespace GLCM
             }
         }
 
-        public static Bitmap MakeGrayscale3(Bitmap original)
+        public static Bitmap ConvertToGrayscale(Bitmap original)
         {
             Bitmap newBitmap = new Bitmap(original.Width, original.Height);
             Graphics graphics = Graphics.FromImage(newBitmap);
@@ -197,10 +197,6 @@ namespace GLCM
                 {
                     var enumKey = enumerator.Key as Tuple<int, int, int, int>;
                     int brushIndex = Convert.ToInt32((double)enumerator.Value / pivot);
-                    if (brushIndex > colorBrushes.Length -1)
-                    {
-                        brushIndex = colorBrushes.Length - 1;
-                    }
                     graphics.FillRectangle(colorBrushes[brushIndex], enumKey.Item1, enumKey.Item2, enumKey.Item3, enumKey.Item4);
                 }
             }
@@ -224,7 +220,7 @@ namespace GLCM
 
         private void OnGlcmBackgroundDoWork(object sender, DoWorkEventArgs e)
         {
-            using (var sourceBitmap = MakeGrayscale3((Bitmap)Bitmap.FromFile(SourceImagePath)))
+            using (var sourceBitmap = ConvertToGrayscale((Bitmap)Bitmap.FromFile(SourceImagePath)))
             {
                 int imgWidth = sourceBitmap.Width;
                 int imgHeight = sourceBitmap.Height;
@@ -301,38 +297,84 @@ namespace GLCM
 
         private void OnHeatmapsBackgroundDoWork(object sender, DoWorkEventArgs e)
         {
-            InvokeAction(() =>
-            {
-                StatusTextBlock.Text = "Status: Generating Entropy heatmap...";
-                EntropyTextBox.Visibility = Visibility.Visible;
-            });
+            int currentProgress = 0;
 
-            GenerateHeatmap(EntropyValues, EntropyImageResult);
-            HeatmapsBackgroundWorker.ReportProgress(25);
-
-            InvokeAction(() =>
+            try
             {
-                StatusTextBlock.Text = "Status: Generating Energy heatmap...";
-                EnergyTextBox.Visibility = Visibility.Visible;
-            });
-            GenerateHeatmap(EnergyValues, EnergyImageResult);
-            HeatmapsBackgroundWorker.ReportProgress(50);
-
-            InvokeAction(() =>
+                InvokeAction(() =>
+                {
+                    StatusTextBlock.Text = "Status: Generating Entropy heatmap...";
+                    EntropyTextBox.Visibility = Visibility.Visible;
+                });
+                GenerateHeatmap(EntropyValues, EntropyImageResult);
+                currentProgress += 25;
+                HeatmapsBackgroundWorker.ReportProgress(currentProgress);
+            }
+            catch (Exception)
             {
-                StatusTextBlock.Text = "Status: Generating Correlation heatmap...";
-                CorrelationTextBox.Visibility = Visibility.Visible;
-            });
-            GenerateHeatmap(CorrelationValues, CorrelationImageResult);
-            HeatmapsBackgroundWorker.ReportProgress(75);
+                InvokeAction(() =>
+                {
+                    EntropyTextBox.Visibility = Visibility.Hidden;
+                });
+            }
 
-            InvokeAction(() =>
+            try
             {
-                StatusTextBlock.Text = "Status: Generating Contrast heatmap...";
-                ContrastTextBox.Visibility = Visibility.Visible;
-            });
-            GenerateHeatmap(ContrastValues, ContrastImageResult);
-            HeatmapsBackgroundWorker.ReportProgress(100);
+                InvokeAction(() =>
+                {
+                    StatusTextBlock.Text = "Status: Generating Energy heatmap...";
+                    EnergyTextBox.Visibility = Visibility.Visible;
+                });
+                GenerateHeatmap(EnergyValues, EnergyImageResult);
+                currentProgress += 25;
+                HeatmapsBackgroundWorker.ReportProgress(currentProgress);
+            }
+            catch (Exception)
+            {
+                InvokeAction(() =>
+                {
+                    EnergyTextBox.Visibility = Visibility.Hidden;
+                });
+            }
+
+            try
+            {
+                InvokeAction(() =>
+                {
+                    StatusTextBlock.Text = "Status: Generating Correlation heatmap...";
+                    CorrelationTextBox.Visibility = Visibility.Visible;
+                });
+                GenerateHeatmap(CorrelationValues, CorrelationImageResult);
+                currentProgress += 25;
+                HeatmapsBackgroundWorker.ReportProgress(currentProgress);
+            }
+            catch (Exception)
+            {
+                InvokeAction(() =>
+                {
+                    CorrelationTextBox.Visibility = Visibility.Hidden;
+                });
+            }
+
+            try
+            {
+                InvokeAction(() =>
+                {
+                    StatusTextBlock.Text = "Status: Generating Contrast heatmap...";
+                    ContrastTextBox.Visibility = Visibility.Visible;
+                });
+                GenerateHeatmap(ContrastValues, ContrastImageResult);
+                currentProgress += 25;
+                HeatmapsBackgroundWorker.ReportProgress(currentProgress);
+            }
+            catch (Exception)
+            {
+                InvokeAction(() =>
+                {
+                    ContrastTextBox.Visibility = Visibility.Hidden;
+                });
+            }
+            
         }
 
         private void OnHeatmapsBackgroundWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

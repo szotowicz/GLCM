@@ -7,8 +7,8 @@
     <ProjectGuid>{82993E6B-8C9B-4925-8BE6-4157C64D3B95}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GLCM_Magic</RootNamespace>
-    <AssemblyName>GLCM-Magic</AssemblyName>
+    <RootNamespace>GLCM</RootNamespace>
+    <AssemblyName>GLCM</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
